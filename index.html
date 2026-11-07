@@ -1,133 +1,142 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Athish's Dream Garage</title>
-
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap');
 *{box-sizing:border-box}
-body{margin:0;background:#090d13;color:#eaf1fa;font-family:'Rajdhani',sans-serif;overflow:hidden}
+body{margin:0;overflow:hidden;background:#080d14;color:#edf1f5;font-family:Rajdhani,sans-serif}
 button{font:inherit;cursor:pointer}
 #scene{position:fixed;inset:0}
 canvas{display:block}
-.hud{position:fixed;inset:0;pointer-events:none}
-.topbar{position:absolute;top:0;left:0;right:0;padding:22px 28px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(#080d15dd,transparent)}
-.brand{font-family:Orbitron,sans-serif;font-size:clamp(14px,2vw,23px);letter-spacing:3px;font-weight:700}
-.brand span{color:#d6a75e}
-.subtitle{font-size:12px;letter-spacing:3px;color:#9ba9b9;margin-top:5px}
-.status{font-family:Orbitron,sans-serif;font-size:10px;letter-spacing:2px;color:#8dcaab}
-.status:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#65d99b;margin-right:9px;box-shadow:0 0 12px #65d99b}
-.instruction{position:absolute;top:105px;left:50%;transform:translateX(-50%);font-size:13px;letter-spacing:2px;color:#aab7c6;text-align:center;white-space:nowrap}
-.bottom{position:absolute;left:0;right:0;bottom:0;padding:16px 22px 20px;background:linear-gradient(transparent,#080d15ee 35%);display:flex;justify-content:space-between;align-items:end;gap:15px;pointer-events:auto}
-.bays{display:flex;gap:7px;flex-wrap:wrap}
-.bay-btn,.action{border:1px solid #526171;background:#101923dd;color:#dce5ee;padding:9px 13px;border-radius:3px;font-family:Orbitron,sans-serif;font-size:10px;letter-spacing:1px;transition:.2s}
-.bay-btn:hover,.bay-btn.active,.action:hover{border-color:#d6a75e;color:#f4c77e;background:#252117}
-.bay-btn.active{box-shadow:0 0 15px #d6a75e33}
-.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.panel{position:absolute;left:22px;top:110px;width:min(330px,calc(100vw - 44px));background:#0c131ded;border:1px solid #66583e;padding:18px;pointer-events:auto;display:none;backdrop-filter:blur(12px);box-shadow:0 15px 50px #0009}
+.topbar{position:fixed;top:0;left:0;right:0;padding:20px 25px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(#080d14ee,transparent);pointer-events:none;z-index:2}
+.brand{font:700 clamp(15px,2vw,24px) Orbitron;letter-spacing:2px}
+.brand span{color:#c9a36b}
+.sub{font:11px Orbitron;letter-spacing:3px;color:#8794a2;margin-top:7px}
+.online{font:11px Orbitron;letter-spacing:2px;color:#91c5a7}
+.online:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#6cdaa0;margin-right:9px}
+.hint{position:fixed;top:105px;left:50%;transform:translateX(-50%);font:11px Orbitron;letter-spacing:2px;color:#aab5c1;white-space:nowrap;pointer-events:none}
+.bottom{position:fixed;bottom:0;left:0;right:0;padding:15px 18px 20px;display:flex;justify-content:space-between;align-items:end;gap:10px;background:linear-gradient(transparent,#080d14f2 30%);z-index:3}
+.bays,.actions{display:flex;gap:7px;flex-wrap:wrap}
+.btn{background:#101923eF;border:1px solid #536171;color:#dce4ec;padding:9px 12px;border-radius:3px;font:10px Orbitron;letter-spacing:.5px}
+.btn:hover,.btn.active{border-color:#d1aa70;color:#f2ca8c;background:#272116}
+.panel{position:fixed;left:20px;top:120px;width:min(350px,calc(100vw - 40px));max-height:calc(100vh - 250px);overflow:auto;background:#0b131eee;border:1px solid #a1845b;padding:18px;z-index:5;display:none;backdrop-filter:blur(14px)}
 .panel.show{display:block}
-.panel h2{font-family:Orbitron,sans-serif;font-size:18px;color:#e7bd78;margin:0 0 6px}
-.panel .model{font-size:12px;letter-spacing:2px;color:#8f9eae;margin-bottom:16px}
-.panel p{font-size:14px;color:#c4cfda;line-height:1.5;margin:8px 0}
-.panel .tag{font-size:10px;color:#d6a75e;letter-spacing:2px;margin-top:14px}
-.panel .close{float:right;background:none;border:0;color:#aab7c6;font-size:20px}
-.panel-actions{display:flex;gap:8px;margin-top:16px}
+.panel-head{display:flex;justify-content:space-between;align-items:start}
+.panel h2{font:700 18px Orbitron;color:#e7bd80;margin:5px 0}
+.panel .close{background:none;border:0;color:#aeb9c5;font-size:22px}
+.eyebrow{font:10px Orbitron;letter-spacing:2px;color:#c49a5e}
+.model{font:11px Orbitron;letter-spacing:1.5px;color:#8493a3;margin:8px 0 15px}
+.tabs{display:flex;gap:5px;margin:15px 0;border-bottom:1px solid #34404c;padding-bottom:9px}
+.tab{flex:1;padding:8px 4px;background:#111b26;border:1px solid #354453;color:#aab7c5;font:9px Orbitron}
+.tab.active{color:#f0c98b;border-color:#b18a57}
+.content{font-size:14px;line-height:1.5;color:#c6d0da;min-height:105px}
+.content p{margin:8px 0}
+.content strong{color:#edf1f5}
+.tag{color:#d5ad72;font:10px Orbitron;letter-spacing:1px;margin:10px 0}
+.panel-actions{display:flex;gap:7px;margin-top:14px}
 .panel-actions button{flex:1}
-.mobile-note{font-size:10px;color:#718093;margin-top:12px}
-@media(max-width:650px){
- .topbar{padding:15px}.status{display:none}
- .instruction{top:85px;font-size:10px}
- .bottom{padding:12px;display:block}
- .bays{justify-content:center}
- .actions{margin-top:10px;justify-content:center}
- .bay-btn{padding:8px 10px;font-size:9px}
- .panel{top:105px;right:12px}
+.note{font-size:10px;color:#718093;margin-top:10px}
+@media(max-width:700px){
+ .topbar{padding:14px}.online{display:none}
+ .hint{top:85px;font-size:9px}
+ .bottom{display:block;padding:10px}
+ .bays{justify-content:center;gap:5px}
+ .btn{font-size:8px;padding:8px}
+ .actions{justify-content:center;margin-top:8px}
+ .panel{top:95px;left:10px;width:min(320px,calc(100vw - 20px))}
 }
 </style>
 </head>
-
 <body>
 <div id="scene"></div>
 
-<div class="hud">
-  <div class="topbar">
-    <div>
-      <div class="brand">ATHISH'S <span>DREAM GARAGE</span></div>
-      <div class="subtitle">A PRIVATE COLLECTION · EST. 2026</div>
-    </div>
-    <div class="status">SYSTEM ONLINE</div>
-  </div>
+<div class="topbar">
+ <div>
+  <div class="brand">ATHISH'S <span>DREAM GARAGE</span></div>
+  <div class="sub">A PRIVATE COLLECTION · EST. 2026</div>
+ </div>
+ <div class="online">SYSTEM ONLINE</div>
+</div>
 
-  <div class="instruction">SELECT A BAY TO RAISE YOUR CAR</div>
+<div class="hint">SELECT A GARAGE BAY TO ACCESS YOUR CAR</div>
 
-  <div class="panel" id="panel">
-    <button class="close" id="closePanel">×</button>
-    <div class="tag">GARAGE COLLECTION / <span id="carNumber">01</span></div>
-    <h2 id="carName">SKODA OCTAVIA</h2>
-    <div class="model" id="carModel">THE ONE THAT STARTED IT ALL</div>
-    <p id="carDescription"></p>
-    <p><strong>Body:</strong> <span id="carBody"></span></p>
-    <p><strong>Interior:</strong> <span id="carInterior"></span></p>
-    <p><strong>Collection status:</strong> <span id="carStatus"></span></p>
-    <div class="panel-actions">
-      <button class="action" id="parkBtn">PARK CAR</button>
-      <button class="action" id="soundBtn">ENGINE SOUND</button>
-    </div>
-    <div class="mobile-note">Engine sound is a generated preview, not an original recording.</div>
+<div class="panel" id="panel">
+ <div class="panel-head">
+  <div>
+   <div class="eyebrow">GARAGE COLLECTION / <span id="number">01</span></div>
+   <h2 id="name">SKODA OCTAVIA</h2>
   </div>
+  <button class="close" id="close">×</button>
+ </div>
+ <div class="model" id="subtitle"></div>
+ <div class="tabs">
+  <button class="tab active" data-tab="exterior">EXTERIOR</button>
+  <button class="tab" data-tab="interior">INTERIOR</button>
+  <button class="tab" data-tab="specs">SPECS</button>
+ </div>
+ <div class="content" id="content"></div>
+ <div class="panel-actions">
+  <button class="btn" id="lift">RAISE CAR</button>
+  <button class="btn" id="sound">ENGINE SOUND</button>
+ </div>
+ <div class="note">Generated engine preview. Authentic recordings can be added later.</div>
+</div>
 
-  <div class="bottom">
-    <div class="bays" id="bayButtons"></div>
-    <div class="actions">
-      <button class="action" id="closeAll">CLOSE ALL</button>
-      <button class="action" id="resetCamera">RESET VIEW</button>
-    </div>
-  </div>
+<div class="bottom">
+ <div class="bays" id="bayButtons"></div>
+ <div class="actions">
+  <button class="btn" id="parkAll">PARK ALL</button>
+  <button class="btn" id="reset">RESET VIEW</button>
+ </div>
 </div>
 
 <script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
-  }
-}
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}
 </script>
 
 <script type="module">
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 
-const cars = [
- {name:"SKODA OCTAVIA",subtitle:"THE ONE THAT STARTED IT ALL",body:"Matte racing red",interior:"Premium tan",status:"NEVER SELL",color:0x9c2028,shape:0,desc:"The heart of this collection. The car that represents you. This bay is permanently reserved."},
- {name:"SKODA SUPERB",subtitle:"THE LUXURY DREAM",body:"Deep metallic black",interior:"Tan luxury leather",status:"DREAM COLLECTION",color:0x202b38,shape:0,desc:"A refined luxury sedan. Comfort, presence and elegance in one machine."},
- {name:"VOLKSWAGEN VIRTUS",subtitle:"THE CHILDHOOD DREAM",body:"Glossy deep red",interior:"Black and tan",status:"DREAM COLLECTION",color:0x871c25,shape:0,desc:"The childhood dream that earned its place in this garage."},
- {name:"BMW M3",subtitle:"THE DRIVER'S MACHINE",body:"Matte graphite",interior:"Black sport interior",status:"DREAM COLLECTION",color:0x303b47,shape:1,desc:"A performance sedan built around the joy of driving."},
- {name:"BMW M5",subtitle:"THE POWERHOUSE",body:"Metallic dark blue",interior:"Black leather",status:"DREAM COLLECTION",color:0x172e50,shape:0,desc:"The special engine sound. The serious performance machine."},
- {name:"MERCEDES-MAYBACH",subtitle:"THE ULTIMATE LUXURY",body:"Obsidian black",interior:"Exclusive tan leather",status:"DREAM COLLECTION",color:0x111318,shape:0,desc:"The ultimate expression of luxury. A special place in the collection."},
- {name:"NISSAN GT-R",subtitle:"THE PAUL WALKER TRIBUTE",body:"Silver metallic",interior:"Black sport interior",status:"DREAM COLLECTION",color:0x9ca5ad,shape:1,desc:"A tribute to an icon. The machine reserved for the track."},
- {name:"MERCEDES-AMG S 63 E",subtitle:"THE PERFORMANCE LUXURY",body:"Glossy obsidian",interior:"Black and tan",status:"DREAM COLLECTION",color:0x141a21,shape:0,desc:"A powerful luxury sedan. Quiet sophistication with serious performance."}
+const cars=[
+ {name:"SKODA OCTAVIA",short:"THE ONE THAT STARTED IT ALL",color:0x9e202b,body:"Matte racing red",interior:"Premium tan leather",status:"NEVER SELL",engine:"Performance-focused sedan engine",desc:"The heart of this collection. The car that represents you. This bay is permanently reserved."},
+ {name:"SKODA SUPERB",short:"THE LUXURY DREAM",color:0x202a35,body:"Deep metallic black",interior:"Tan luxury leather",status:"DREAM COLLECTION",engine:"Luxury sedan powertrain",desc:"A refined luxury sedan. Comfort, presence and elegance in one machine."},
+ {name:"VOLKSWAGEN VIRTUS",short:"THE CHILDHOOD DREAM",color:0x8b2027,body:"Glossy deep red",interior:"Black and tan",status:"DREAM COLLECTION",engine:"Turbocharged sedan powertrain",desc:"The childhood dream that earned its place in this garage."},
+ {name:"BMW M3",short:"THE DRIVER'S MACHINE",color:0x303b48,body:"Matte graphite",interior:"Black sport interior",status:"DREAM COLLECTION",engine:"BMW M performance powertrain",desc:"A performance sedan built around the joy of driving."},
+ {name:"BMW M5",short:"THE POWERHOUSE",color:0x172e50,body:"Metallic dark blue",interior:"Black leather",status:"DREAM COLLECTION",engine:"BMW M performance powertrain",desc:"The special engine sound. The serious performance machine."},
+ {name:"MERCEDES-MAYBACH",short:"THE ULTIMATE LUXURY",color:0x171a1f,body:"Obsidian black",interior:"Exclusive tan leather",status:"DREAM COLLECTION",engine:"Luxury V12 option to be confirmed",desc:"The ultimate expression of luxury. A special place in the collection."},
+ {name:"NISSAN GT-R",short:"THE PAUL WALKER TRIBUTE",color:0x9da6ae,body:"Silver metallic",interior:"Black sport interior",status:"DREAM COLLECTION",engine:"GT-R performance powertrain",desc:"A tribute to an icon. The machine reserved for the track."},
+ {name:"MERCEDES-AMG S 63 E",short:"THE PERFORMANCE LUXURY",color:0x141b23,body:"Glossy obsidian",interior:"Black and tan",status:"DREAM COLLECTION",engine:"AMG hybrid performance powertrain",desc:"A powerful luxury sedan. Quiet sophistication with serious performance."}
 ];
 
 let scene,camera,renderer,controls,clock;
-let bays=[],activeBay=-1,raycaster,mouse;
-let audioContext=null,oscillator=null;
-const bayButtons=document.getElementById('bayButtons');
+let bays=[],selected=-1,raycaster,mouse;
+let audio=null,osc=null,activeTab='exterior';
 const panel=document.getElementById('panel');
+const buttons=document.getElementById('bayButtons');
 
 init();
 animate();
 
+function mat(color,roughness=.7,metalness=.15){
+ return new THREE.MeshStandardMaterial({color,roughness,metalness});
+}
+function box(parent,w,h,d,x,y,z,material,cast=true){
+ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);
+ m.position.set(x,y,z);m.castShadow=cast;m.receiveShadow=true;parent.add(m);return m;
+}
+
 function init(){
  scene=new THREE.Scene();
  scene.background=new THREE.Color(0x080d14);
- scene.fog=new THREE.Fog(0x080d14,25,65);
+ scene.fog=new THREE.Fog(0x080d14,40,90);
 
- camera=new THREE.PerspectiveCamera(43,innerWidth/innerHeight,0.1,120);
- camera.position.set(24,17,29);
+ camera=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,.1,150);
+ camera.position.set(19,10,27);
 
  renderer=new THREE.WebGLRenderer({antialias:true});
  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
@@ -135,386 +144,389 @@ function init(){
  renderer.shadowMap.enabled=true;
  renderer.shadowMap.type=THREE.PCFSoftShadowMap;
  renderer.toneMapping=THREE.ACESFilmicToneMapping;
- renderer.toneMappingExposure=1.25;
+ renderer.toneMappingExposure=1.15;
  document.getElementById('scene').appendChild(renderer.domElement);
 
  controls=new OrbitControls(camera,renderer.domElement);
- controls.target.set(0,1.3,-0.5);
+ controls.target.set(0,-1.1,0);
  controls.enableDamping=true;
+ controls.dampingFactor=.07;
+ controls.minDistance=15;
+ controls.maxDistance=48;
  controls.maxPolarAngle=Math.PI/2.05;
- controls.minDistance=10;
- controls.maxDistance=50;
 
  clock=new THREE.Clock();
  raycaster=new THREE.Raycaster();
  mouse=new THREE.Vector2();
 
- scene.add(new THREE.HemisphereLight(0xb8c7d8,0x15191f,.9));
+ scene.add(new THREE.HemisphereLight(0xb8c7d8,0x171a20,1));
+ const sun=new THREE.DirectionalLight(0xffe6c8,1.5);
+ sun.position.set(-10,18,12);sun.castShadow=true;
+ sun.shadow.mapSize.set(2048,2048);scene.add(sun);
 
- const mainLight=new THREE.DirectionalLight(0xffe8ca,1.25);
- mainLight.position.set(-8,16,8);
- mainLight.castShadow=true;
- mainLight.shadow.mapSize.set(2048,2048);
- scene.add(mainLight);
+ buildArchitecture();
+ cars.forEach((car,i)=>buildBay(car,i));
+ buildButtons();
 
- buildGarage();
- cars.forEach((car,i)=>createBay(car,i));
- createUI();
+ renderer.domElement.addEventListener('pointerdown',pickBay);
+ document.getElementById('close').onclick=()=>closePanel();
+ document.getElementById('lift').onclick=()=>toggleLift(selected);
+ document.getElementById('sound').onclick=toggleSound;
+ document.getElementById('parkAll').onclick=parkAll;
+ document.getElementById('reset').onclick=resetView;
 
- renderer.domElement.addEventListener('pointerdown',onPointerDown);
- window.addEventListener('resize',onResize);
+ document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+   activeTab=btn.dataset.tab;
+   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
+   renderDetails();
+  });
+ });
+ window.addEventListener('resize',resize);
 }
 
-function material(color,roughness=.7,metalness=.15){
- return new THREE.MeshStandardMaterial({color,roughness,metalness});
-}
+function buildArchitecture(){
+ const concrete=mat(0x343a40,.9);
+ const wall=mat(0x202832,.9);
+ const dark=mat(0x10161d,.8);
+ const gold=mat(0xa58a62,.45,.65);
+ const lane=mat(0x252c33,.85);
 
-function addBox(parent,w,h,d,x,y,z,mat,cast=true,receive=true){
- const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
- mesh.position.set(x,y,z);
- mesh.castShadow=cast;
- mesh.receiveShadow=receive;
- parent.add(mesh);
- return mesh;
-}
+ // Basement floor and back wall
+ box(scene,29,.35,14,0,-4.25,-.1,concrete,false);
+ box(scene,29,4.8,.35,0,-1.9,-7.15,wall,false);
+ box(scene,.35,4.8,14,-14.5,-1.9,-.1,wall,false);
+ box(scene,.35,4.8,14,14.5,-1.9,-.1,wall,false);
 
-function buildGarage(){
- const concrete=material(0x30363d,.88);
- const wall=material(0x202831,.9);
- const dark=material(0x10151c,.8);
- const trim=material(0xb49a70,.42,.65);
- const floor=addBox(scene,29,.45,15,0,-.25,0,concrete,false,true);
- floor.receiveShadow=true;
+ // Upper driveway: visible lane in front of the garage
+ box(scene,30,.28,8,0,-.08,7.2,lane,false);
+ for(let x=-12;x<=12;x+=4){
+  box(scene,.06,.02,5,x,.08,7.2,gold,false);
+ }
+ // Road edge markings
+ box(scene,30,.035,.09,0,.09,3.25,gold,false);
+ box(scene,30,.035,.09,0,.09,11.1,gold,false);
 
- // Basement walls
- addBox(scene,29,5,.5,0,2.25,-7.25,wall);
- addBox(scene,.5,5,15,-14.25,2.25,0,wall);
- addBox(scene,.5,5,15,14.25,2.25,0,wall);
- addBox(scene,29,.5,.5,0,4.8,7.25,wall);
-
- // Ceiling
- addBox(scene,29,.35,15,0,5,0,dark,false);
- // Structural beams
+ // Cutaway ceiling rim and structural beams
  for(let x=-12;x<=12;x+=6){
-   addBox(scene,.28,.55,15,x,4.55,0,trim);
+  box(scene,.22,.35,14,x,.25,-.1,gold,false);
  }
- // Floor markings
- const lineMat=new THREE.MeshStandardMaterial({color:0xd6a75e,emissive:0x493019});
- for(let x=-12;x<=12;x+=3.5){
-   addBox(scene,.035,.012,8.8,x,.0,-.2,lineMat,false);
+ // Lighting along the back of each bay
+ for(let x=-12;x<=12;x+=3.4){
+  const light=new THREE.PointLight(0xffdfb9,20,8,2);
+  light.position.set(x,-.4,-3.5);scene.add(light);
+  const lamp=box(scene,1.8,.08,.35,x,.15,-3.5,mat(0xe4d2b5,.3),false);
+  lamp.material.emissive=new THREE.Color(0x403020);
  }
- // Back wall panels
- for(let x=-12;x<=12;x+=2){
-   addBox(scene,.035,3.4,.04,x,2.4,-6.97,trim,false);
+ // Entrance pillars
+ for(const x of [-14,14]){
+  box(scene,.35,4.7,.45,x,-1.9,3.15,gold,false);
  }
- // Ceiling lights
- for(let x=-10.5;x<=10.5;x+=3){
-   const light=new THREE.PointLight(0xffe3c2,24,9,2);
-   light.position.set(x,4.35,0);
-   scene.add(light);
-   const lamp=addBox(scene,1.7,.07,.55,x,4.65,0,material(0xffe4b8,.3),false);
-   lamp.material.emissive=new THREE.Color(0x8a6536);
-   lamp.material.emissiveIntensity=.18;
+ // Bay dividers
+ for(let i=0;i<=8;i++){
+  const x=-13.6+i*3.4;
+  box(scene,.13,4.2,7.4,x,-1.9,-.2,wall,false);
+  box(scene,.19,.12,7.4,x,-3.95,-.2,gold,false);
  }
- // Entrance ramp
- const ramp=addBox(scene,7,.18,5,0,-.06,8.8,material(0x343b43),false);
- ramp.rotation.x=-.12;
- // Entrance frame
- addBox(scene,29,.3,.3,0,4.4,7.05,trim);
- addBox(scene,.3,4,.3,-14,2.2,7.05,trim);
- addBox(scene,.3,4,.3,14,2.2,7.05,trim);
+ // A visible front cutaway frame
+ box(scene,28,.22,.22,0,.05,3.2,gold,false);
 }
 
-function createBay(car,index){
+function buildBay(car,index){
  const group=new THREE.Group();
- scene.add(group);
+ const x=(index-3.5)*3.4;
+ group.position.x=x;scene.add(group);
 
- const x=(index-3.5)*3.45;
- group.position.x=x;
+ const steel=mat(0x687581,.35,.75);
+ const platformMat=mat(0x555f69,.65,.45);
+ const gold=mat(0xb18e5e,.4,.7);
 
- const platformMat=material(0x5b626b,.65,.35);
- const platform=addBox(group,2.8,.24,6.2,0,.2,-.2,platformMat);
- platform.userData.bayIndex=index;
+ // Deep elevator shaft walls
+ box(group,2.95,.18,6.4,0,-4.05,-.1,mat(0x111820),false);
+ box(group,.12,3.8,6.3,-1.52,-2.05,-.1,wallMat(),false);
+ box(group,.12,3.8,6.3,1.52,-2.05,-.1,wallMat(),false);
 
- // Platform edge details
- const edgeMat=material(0xc09252,.45,.65);
- for(const side of [-1,1]){
-   addBox(group,.07,.1,6.15,side*1.36,.34,-.2,edgeMat);
- }
- // Hydraulic columns
- const liftMat=material(0x9babb7,.3,.75);
- const lifts=[];
- for(const xx of [-.95,.95]){
-  for(const zz of [-2.1,1.7]){
-   const lift=addBox(group,.18,1.1,.18,xx,.78,zz,liftMat);
-   lifts.push(lift);
+ // Platform is the actual elevator deck.
+ const platform=box(group,2.72,.22,6.05,0,-3.78,-.05,platformMat);
+ box(group,2.68,.035,.07,0,-3.64,2.94,gold,false);
+ box(group,2.68,.035,.07,0,-3.64,-3.04,gold,false);
+
+ // Hydraulic piston columns, fixed lower sections and moving upper sections
+ const pistons=[];
+ for(const xx of [-1.12,1.12]){
+  for(const zz of [-2.3,2.2]){
+   box(group,.22,1.1,.22,xx,-3.25,zz,mat(0x303a43,.4,.8));
+   const moving=box(group,.13,2.0,.13,xx,-2.65,zz,steel);
+   pistons.push(moving);
   }
  }
- // Bay back wall and divider columns
- addBox(group,3.2,4,.18,0,2.05,-3.5,wallMaterial(),false);
- for(const side of [-1,1]){
-  addBox(group,.14,4,7,side*1.65,2,0,material(0x303943),false);
- }
- // Shutter at front
+
+ // Shutter at the front of the individual bay
  const shutter=new THREE.Group();
- shutter.position.set(0,2.1,3.35);
+ shutter.position.set(0,-1.75,3.12);
  group.add(shutter);
- const shutterMat=material(0x65717d,.65,.55);
- for(let k=0;k<12;k++){
-   const slat=addBox(shutter,3.15,.17,.12,0,-1.02+k*.18,0,shutterMat,false);
-   slat.userData.bayIndex=index;
+ const shutterMat=mat(0x4a555f,.55,.55);
+ for(let k=0;k<13;k++){
+  box(shutter,3.05,.145,.09,0,-.9+k*.15,0,shutterMat,false);
  }
- const shutterFrame=addBox(group,3.35,.16,.2,0,4.1,3.35,edgeMat,false);
+ // Shutter guide rails
+ for(const xx of [-1.58,1.58]){
+  box(group,.1,3.8,.13,xx,-1.75,3.1,gold,false);
+ }
 
- const carGroup=createCar(car,index);
+ const carGroup=makeCar(car,index);
+ carGroup.position.set(0,-3.52,-.1);
  group.add(carGroup);
- carGroup.position.set(0,.4,-.2);
 
- // Bay number on back wall
- const sign=makeLabel(String(index+1).padStart(2,'0'));
- sign.position.set(0,3.65,-3.38);
- group.add(sign);
-
- // Invisible clickable pad
- const hit=new THREE.Mesh(new THREE.BoxGeometry(3.15,.2,7),new THREE.MeshBasicMaterial({transparent:true,opacity:0}));
- hit.position.set(0,.65,0);
+ // Only this dedicated invisible bay target is clickable.
+ const hit=new THREE.Mesh(
+  new THREE.BoxGeometry(3.1,3.5,.5),
+  new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false})
+ );
+ hit.position.set(0,-1.9,3.25);
  hit.userData.bayIndex=index;
  group.add(hit);
 
- bays.push({group,platform,shutter,carGroup,lifts,hit,raised:false,opening:0});
+ // Bay number plaque
+ const plaque=makePlaque(String(index+1).padStart(2,'0'));
+ plaque.position.set(0,-.3,-6.93);
+ group.add(plaque);
+
+ bays.push({
+  group,platform,shutter,carGroup,pistons,hit,
+  lift:0,shutterOpen:0,targetLift:0,targetShutter:0
+ });
 }
 
-function wallMaterial(){return material(0x333b45,.9)}
-
-function makeLabel(value){
- const canvas=document.createElement('canvas');
- canvas.width=256;canvas.height=128;
- const ctx=canvas.getContext('2d');
+function wallMat(){return mat(0x303a44,.9)}
+function makePlaque(label){
+ const c=document.createElement('canvas');c.width=256;c.height=128;
+ const ctx=c.getContext('2d');
  ctx.fillStyle='#111923';ctx.fillRect(0,0,256,128);
- ctx.strokeStyle='#d6a75e';ctx.lineWidth=5;ctx.strokeRect(5,5,246,118);
- ctx.fillStyle='#f0c987';ctx.font='bold 66px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(value,128,65);
- const texture=new THREE.CanvasTexture(canvas);
- const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1.2,.6),new THREE.MeshBasicMaterial({map:texture,transparent:true}));
- return mesh;
+ ctx.strokeStyle='#c4a06b';ctx.lineWidth=5;ctx.strokeRect(5,5,246,118);
+ ctx.fillStyle='#f0d09b';ctx.font='bold 65px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(label,128,66);
+ return new THREE.Mesh(new THREE.PlaneGeometry(1.15,.58),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c)}));
 }
 
-function createCar(car,index){
+function makeCar(car,index){
  const g=new THREE.Group();
- const paint=new THREE.MeshStandardMaterial({color:car.color,metalness:.72,roughness:.28});
- const glass=new THREE.MeshStandardMaterial({color:0x182b39,metalness:.45,roughness:.18});
- const black=material(0x090d12,.35,.2);
- const chrome=material(0xaab5bd,.25,.85);
- const tire=material(0x111316,.95);
- const tan=material(0x92734e,.7);
+ const paint=mat(car.color,.28,.72);
+ const glass=mat(0x142735,.16,.5);
+ const black=mat(0x080c11,.5,.2);
+ const chrome=mat(0xb5c0c7,.25,.85);
+ const tire=mat(0x101214,.95);
+ const leather=mat(index===0?0x98774f:0x252b31,.75);
 
- // Car body
- addBox(g,1.75,.48,3.8,0,.72,0,paint);
- addBox(g,1.62,.35,1.1,0,1.03,1.15,paint);
- // Cabin
- const cabin=addBox(g,1.42,.68,1.9,0,1.28,-.25,glass);
- // Roof
- addBox(g,1.38,.09,1.45,0,1.65,-.28,paint);
- // Hood and rear deck
- addBox(g,1.65,.15,1.05,0,.99,1.25,paint);
- addBox(g,1.65,.16,.75,0,.99,-1.5,paint);
+ // Sedan body, bonnet and boot
+ box(g,1.78,.48,3.95,0,.65,0,paint);
+ box(g,1.7,.16,1.1,0,.95,1.35,paint);
+ box(g,1.7,.16,.85,0,.95,-1.55,paint);
+ box(g,1.62,.65,1.95,0,1.15,-.25,glass);
+ box(g,1.48,.09,1.55,0,1.51,-.28,paint);
 
- // Front and rear bumpers
- addBox(g,1.7,.22,.22,0,.57,1.98,black);
- addBox(g,1.7,.22,.22,0,.57,-1.98,black);
+ // Front/rear windows
+ box(g,1.45,.43,.07,0,1.22,.78,glass);
+ box(g,1.43,.4,.07,0,1.22,-1.27,glass);
 
- // Windshield / rear window
- const wind=material(0x0c1a25,.18,.4);
- const frontWindow=addBox(g,1.38,.48,.06,0,1.31,.73,wind,false);
- frontWindow.rotation.x=-.25;
- const rearWindow=addBox(g,1.36,.45,.06,0,1.3,-1.23,wind,false);
- rearWindow.rotation.x=.25;
-
- // Seats visible through glass
+ // Interior seats
  for(const z of [-.75,.35]){
-  for(const x of [-.42,.42]){
-   addBox(g,.42,.48,.38,x,1.05,z,tan,false);
+  for(const xx of [-.43,.43]){
+   box(g,.4,.42,.4,xx,1.02,z,leather);
   }
  }
- // Wheels, alloy hubs
- for(const x of [-.91,.91]){
-  for(const z of [-1.25,1.25]){
-   const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.39,.39,.22,24),tire);
-   wheel.rotation.z=Math.PI/2;
-   wheel.position.set(x,.48,z);
-   wheel.castShadow=true;
-   g.add(wheel);
-   const hub=new THREE.Mesh(new THREE.CylinderGeometry(.2,.2,.235,16),chrome);
-   hub.rotation.z=Math.PI/2;
-   hub.position.set(x*1.01,.48,z);
-   g.add(hub);
-   const center=new THREE.Mesh(new THREE.CylinderGeometry(.07,.07,.24,12),black);
-   center.rotation.z=Math.PI/2;
-   center.position.set(x*1.02,.48,z);
-   g.add(center);
-  }
- }
- // Headlights
- const lampMat=new THREE.MeshStandardMaterial({color:0xfff1d0,emissive:0xffdca0,emissiveIntensity:1.2});
- for(const x of [-.58,.58]){
-  addBox(g,.38,.16,.06,x,.78,2.02,lampMat,false);
-  const rear=addBox(g,.38,.14,.06,x,.78,-2.02,material(0xa51f25,.3),false);
-  rear.material.emissive=new THREE.Color(0x6b0909);
-  rear.material.emissiveIntensity=.8;
- }
- // Side mirrors
- for(const x of [-.95,.95]){
-  addBox(g,.18,.13,.25,x,1.15,.55,paint);
- }
- // Front grille
- addBox(g,.75,.25,.035,0,.67,2.04,black,false);
- // Dashboard hint
- addBox(g,1.1,.12,.25,0,1.05,.55,black,false);
+ // Dashboard and steering wheel
+ box(g,1.15,.13,.3,0,1.03,.62,black);
+ const wheel=new THREE.Mesh(new THREE.TorusGeometry(.16,.025,8,24),black);
+ wheel.position.set(-.43,1.18,.56);g.add(wheel);
 
- g.userData.bayIndex=index;
+ // Wheels and alloy centres
+ for(const xx of [-.92,.92]){
+  for(const z of [-1.28,1.28]){
+   const w=new THREE.Mesh(new THREE.CylinderGeometry(.38,.38,.22,24),tire);
+   w.rotation.z=Math.PI/2;w.position.set(xx,.43,z);g.add(w);
+   const hub=new THREE.Mesh(new THREE.CylinderGeometry(.21,.21,.235,20),chrome);
+   hub.rotation.z=Math.PI/2;hub.position.set(xx*1.01,.43,z);g.add(hub);
+  }
+ }
+ // Bumpers and grille
+ box(g,1.72,.2,.2,0,.53,2.02,black);
+ box(g,1.72,.2,.2,0,.53,-2.02,black);
+ box(g,.72,.24,.04,0,.66,2.13,black);
+
+ const headlight=mat(0xffedc9,.25,.2);
+ headlight.emissive=new THREE.Color(0xffd99b);
+ headlight.emissiveIntensity=.7;
+ for(const xx of [-.58,.58]){
+  box(g,.4,.14,.05,xx,.77,2.04,headlight,false);
+  const tail=mat(0x9f1820,.25,.2);
+  tail.emissive=new THREE.Color(0x5b090c);
+  box(g,.4,.13,.05,xx,.77,-2.04,tail,false);
+  box(g,.17,.13,.25,xx*1.7,1.08,.55,paint);
+ }
  return g;
 }
 
-function createUI(){
+function buildButtons(){
  cars.forEach((car,i)=>{
-  const btn=document.createElement('button');
-  btn.className='bay-btn';
-  btn.textContent=String(i+1).padStart(2,'0')+' · '+car.name.split(' ')[0];
-  btn.addEventListener('click',()=>selectBay(i));
-  bayButtons.appendChild(btn);
+  const b=document.createElement('button');
+  b.className='btn';
+  b.textContent=String(i+1).padStart(2,'0')+' · '+car.name.split(' ')[0];
+  b.onclick=()=>selectBay(i);
+  buttons.appendChild(b);
  });
- document.getElementById('closePanel').onclick=()=>panel.classList.remove('show');
- document.getElementById('parkBtn').onclick=()=>parkBay(activeBay);
- document.getElementById('soundBtn').onclick=toggleSound;
- document.getElementById('closeAll').onclick=closeAll;
- document.getElementById('resetCamera').onclick=resetCamera;
 }
 
-function selectBay(index){
- if(activeBay!==-1 && activeBay!==index) parkBay(activeBay);
- activeBay=index;
- const car=cars[index];
- const bay=bays[index];
+function selectBay(i){
+ if(i<0||i>=bays.length)return;
+ if(selected!==-1&&selected!==i){
+  const previous=bays[selected];
+  previous.targetLift=0;
+  previous.targetShutter=0;
+ }
+ selected=i;
+ const bay=bays[i];
+ bay.targetShutter=1;
+ bay.targetLift=1;
 
- bay.raised=true;
+ [...buttons.children].forEach((b,n)=>b.classList.toggle('active',n===i));
+ activeTab='exterior';
+ document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='exterior'));
+
+ document.getElementById('number').textContent=String(i+1).padStart(2,'0');
+ document.getElementById('name').textContent=cars[i].name;
+ document.getElementById('subtitle').textContent=cars[i].short;
  panel.classList.add('show');
- document.getElementById('carNumber').textContent=String(index+1).padStart(2,'0');
- document.getElementById('carName').textContent=car.name;
- document.getElementById('carModel').textContent=car.subtitle;
- document.getElementById('carDescription').textContent=car.desc;
- document.getElementById('carBody').textContent=car.body;
- document.getElementById('carInterior').textContent=car.interior;
- document.getElementById('carStatus').textContent=car.status;
+ renderDetails();
 
- [...bayButtons.children].forEach((b,i)=>b.classList.toggle('active',i===index));
-
- // Move camera towards selected bay
- const targetX=bay.group.position.x;
- controls.target.set(targetX,1.5,-0.2);
- camera.position.set(targetX+6,10.5,18);
- controls.update();
+ // IMPORTANT: no camera position, target, zoom or controls changes here.
 }
 
-function parkBay(index){
- if(index<0)return;
- const bay=bays[index];
- bay.raised=false;
- if(activeBay===index){
-  activeBay=-1;
-  panel.classList.remove('show');
-  [...bayButtons.children].forEach(b=>b.classList.remove('active'));
+function renderDetails(){
+ const car=cars[selected];
+ if(!car)return;
+ const content=document.getElementById('content');
+ if(activeTab==='exterior'){
+  content.innerHTML=`
+   <div class="tag">EXTERIOR PROFILE</div>
+   <p>${car.desc}</p>
+   <p><strong>Body finish:</strong> ${car.body}</p>
+   <p><strong>Collection status:</strong> ${car.status}</p>
+   <p><strong>Bay:</strong> ${String(selected+1).padStart(2,'0')}</p>`;
+ }else if(activeTab==='interior'){
+  content.innerHTML=`
+   <div class="tag">CABIN / INTERIOR</div>
+   <p><strong>Interior finish:</strong> ${car.interior}</p>
+   <p>Cabin preview includes visible seats, dashboard and steering wheel in the 3D model.</p>
+   <p>Detailed cockpit materials, door opening and interactive interior inspection are planned for the next modelling stage.</p>`;
+ }else{
+  content.innerHTML=`
+   <div class="tag">VEHICLE INFORMATION</div>
+   <p><strong>Vehicle:</strong> ${car.name}</p>
+   <p><strong>Body style:</strong> Sedan / performance collection</p>
+   <p><strong>Powertrain:</strong> ${car.engine}</p>
+   <p><strong>Finish:</strong> ${car.body}</p>
+   <p><strong>Interior:</strong> ${car.interior}</p>
+   <p><strong>Status:</strong> ${car.status}</p>
+   <p class="note">Exact year, trim and factory specifications await model confirmation.</p>`;
  }
- stopSound();
 }
 
-function closeAll(){
- bays.forEach((bay,i)=>bay.raised=false);
- activeBay=-1;
+function toggleLift(i){
+ if(i<0)return;
+ const bay=bays[i];
+ const rising=bay.targetLift<.5;
+ bay.targetShutter=1;
+ bay.targetLift=rising?1:0;
+ document.getElementById('lift').textContent=rising?'PARK CAR':'RAISE CAR';
+ if(!rising)stopSound();
+}
+
+function closePanel(){
  panel.classList.remove('show');
- [...bayButtons.children].forEach(b=>b.classList.remove('active'));
+}
+function parkAll(){
+ bays.forEach(b=>{b.targetLift=0;b.targetShutter=0;});
+ selected=-1;
+ panel.classList.remove('show');
+ [...buttons.children].forEach(b=>b.classList.remove('active'));
  stopSound();
 }
-
-function resetCamera(){
- camera.position.set(24,17,29);
- controls.target.set(0,1.3,-0.5);
+function resetView(){
+ camera.position.set(19,10,27);
+ controls.target.set(0,-1.1,0);
  controls.update();
 }
-
 function toggleSound(){
- if(oscillator){stopSound();return;}
+ if(osc){stopSound();return;}
  try{
-  audioContext=new (window.AudioContext||window.webkitAudioContext)();
-  oscillator=audioContext.createOscillator();
-  const gain=audioContext.createGain();
-  const filter=audioContext.createBiquadFilter();
-  oscillator.type='sawtooth';
-  oscillator.frequency.setValueAtTime(65,audioContext.currentTime);
-  filter.type='lowpass';
-  filter.frequency.value=180;
+  audio=new (window.AudioContext||window.webkitAudioContext)();
+  osc=audio.createOscillator();
+  const gain=audio.createGain();
+  const filter=audio.createBiquadFilter();
+  osc.type='sawtooth';
+  osc.frequency.value=65;
+  filter.type='lowpass';filter.frequency.value=180;
   gain.gain.value=.035;
-  oscillator.connect(filter);
-  filter.connect(gain);
-  gain.connect(audioContext.destination);
-  oscillator.start();
-  document.getElementById('soundBtn').textContent='STOP SOUND';
- }catch(e){alert('Audio preview is not available in this browser.');}
+  osc.connect(filter);filter.connect(gain);gain.connect(audio.destination);
+  osc.start();
+  document.getElementById('sound').textContent='STOP SOUND';
+ }catch(e){alert('Audio preview unavailable in this browser.');}
 }
-
 function stopSound(){
- if(oscillator){
-  try{oscillator.stop();}catch(e){}
-  oscillator=null;
- }
- if(audioContext){audioContext.close();audioContext=null;}
- const btn=document.getElementById('soundBtn');
- if(btn)btn.textContent='ENGINE SOUND';
+ if(osc){try{osc.stop()}catch(e){}osc=null;}
+ if(audio){audio.close();audio=null;}
+ const b=document.getElementById('sound');
+ if(b)b.textContent='ENGINE SOUND';
 }
 
-function onPointerDown(event){
+function pickBay(event){
+ // Ignore UI, and only test the eight dedicated bay hit zones.
  if(event.target.closest('button')||event.target.closest('.panel'))return;
- mouse.x=(event.clientX/innerWidth)*2-1;
- mouse.y=-(event.clientY/innerHeight)*2+1;
+ const rect=renderer.domElement.getBoundingClientRect();
+ mouse.x=((event.clientX-rect.left)/rect.width)*2-1;
+ mouse.y=-((event.clientY-rect.top)/rect.height)*2+1;
  raycaster.setFromCamera(mouse,camera);
- const hits=raycaster.intersectObjects(scene.children,true);
- for(const hit of hits){
-  let obj=hit.object;
-  while(obj){
-   if(obj.userData && Number.isInteger(obj.userData.bayIndex)){
-    selectBay(obj.userData.bayIndex);
-    return;
-   }
-   obj=obj.parent;
-  }
+ const targets=bays.map(b=>b.hit);
+ const hits=raycaster.intersectObjects(targets,false);
+ if(hits.length){
+  const i=hits[0].object.userData.bayIndex;
+  if(Number.isInteger(i))selectBay(i);
  }
-}
-
-function onResize(){
- camera.aspect=innerWidth/innerHeight;
- camera.updateProjectionMatrix();
- renderer.setSize(innerWidth,innerHeight);
+ // Clicks on floor, walls, ceiling and other scenery do nothing.
 }
 
 function animate(){
  requestAnimationFrame(animate);
  const dt=Math.min(clock.getDelta(),.05);
- bays.forEach(bay=>{
-  const target=bay.raised?2.0:0;
-  const current=bay.platform.position.y-.2;
-  const next=THREE.MathUtils.damp(current,target,2.1,dt);
-  const movement=next-current;
-  bay.platform.position.y=.2+next;
-  bay.carGroup.position.y=.4+next;
-  bay.lifts.forEach(lift=>{
-   lift.scale.y=Math.max(.1,1+next*.65);
-   lift.position.y=.78+next*.35;
+ bays.forEach(b=>{
+  // Open shutter first; only then raise the lift.
+  b.shutterOpen=THREE.MathUtils.damp(b.shutterOpen,b.targetShutter,3.5,dt);
+  const liftAllowed=b.shutterOpen>.88?b.targetLift:0;
+  b.lift=THREE.MathUtils.damp(b.lift,liftAllowed,1.5,dt);
+
+  // The lift stops exactly at the upper driving-lane height.
+  const bottom=-3.78;
+  const top=-.02;
+  const y=THREE.MathUtils.lerp(bottom,top,b.lift);
+  b.platform.position.y=y;
+  b.carGroup.position.y=y+.26;
+  b.pistons.forEach(p=>{
+   p.position.y=-3.1+b.lift*1.65;
+   p.scale.y=1+b.lift*.65;
   });
-  const targetOpen=bay.raised?1:0;
-  bay.opening=THREE.MathUtils.damp(bay.opening,targetOpen,3,dt);
-  bay.shutter.position.y=2.1+bay.opening*4.1;
+
+  // Shutter retracts vertically into its own overhead pocket.
+  b.shutter.position.y=-1.75+b.shutterOpen*3.15;
  });
  controls.update();
  renderer.render(scene,camera);
 }
+function resize(){
+ camera.aspect=innerWidth/innerHeight;
+ camera.updateProjectionMatrix();
+ renderer.setSize(innerWidth,innerHeight);
+}
+window.addEventListener('resize',resize);
 </script>
 </body>
 </html>
