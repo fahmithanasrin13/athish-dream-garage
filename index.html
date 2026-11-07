@@ -1,1216 +1,521 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#090b0d">
 <title>Athish's Dream Garage</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap');
-
-:root {
-  --red:#d62929;
-  --dark:#090b0d;
-  --silver:#aeb5bb;
-  --muted:#858b91;
-}
-
-* { box-sizing:border-box; margin:0; padding:0; }
-
-body {
-  background:#080a0c;
-  color:#f4f4f4;
-  font-family:Montserrat,Arial,sans-serif;
-  overflow-x:hidden;
-}
-
-button { font-family:inherit; }
-
-.hidden { display:none!important; }
-
-/* ENTRANCE */
-
-.entrance {
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:30px;
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(ellipse at 50% 70%,#4a1714 0%,transparent 50%),
-    linear-gradient(180deg,#090b0d,#17191b 65%,#08090a);
-}
-
-.entrance:before {
-  content:"";
-  position:absolute;
-  inset:0;
-  opacity:.2;
-  background:repeating-linear-gradient(
-    90deg,transparent 0 100px,#777 101px,#777 102px
-  );
-  mask-image:linear-gradient(to bottom,transparent,#000);
-}
-
-.entrance-content { position:relative; z-index:2; }
-
-.eyebrow {
-  color:#e64a43;
-  letter-spacing:7px;
-  font-size:10px;
-  font-weight:600;
-  margin-bottom:25px;
-}
-
-.entrance h1 {
-  font-family:"Barlow Condensed",sans-serif;
-  font-size:clamp(65px,12vw,145px);
-  line-height:.85;
-  letter-spacing:3px;
-  font-weight:800;
-}
-
-.entrance h1 span { color:var(--red); }
-
-.entrance-sub {
-  margin-top:30px;
-  color:#a8a8a8;
-  letter-spacing:5px;
-  font-size:10px;
-}
-
-.enter-button {
-  margin-top:55px;
-  padding:18px 48px;
-  border:1px solid var(--red);
-  background:#a71c1c;
-  color:white;
-  letter-spacing:4px;
-  font-size:11px;
-  cursor:pointer;
-  transition:.3s;
-}
-
-.enter-button:hover {
-  background:#e02d2d;
-  box-shadow:0 0 40px #db272766;
-  transform:translateY(-3px);
-}
-
-/* GARAGE ENVIRONMENT */
-
-.garage {
-  min-height:100vh;
-  background:#090b0d;
-  padding-bottom:60px;
-}
-
-.topbar {
-  height:72px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 5%;
-  border-bottom:1px solid #292c2e;
-  background:#0b0d0f;
-}
-
-.brand {
-  font-family:"Barlow Condensed",sans-serif;
-  letter-spacing:3px;
-  font-size:20px;
-  font-weight:700;
-}
-
-.brand span { color:var(--red); }
-
-.top-status {
-  color:#92979a;
-  font-size:9px;
-  letter-spacing:2px;
-}
-
-.live-dot {
-  display:inline-block;
-  width:7px;
-  height:7px;
-  background:#52b879;
-  border-radius:50%;
-  margin-right:8px;
-  box-shadow:0 0 10px #52b879;
-}
-
-.intro {
-  text-align:center;
-  padding:55px 15px 35px;
-}
-
-.intro .eyebrow { margin-bottom:12px; }
-
-.intro h2 {
-  font-family:"Barlow Condensed",sans-serif;
-  font-size:clamp(36px,6vw,62px);
-  letter-spacing:4px;
-}
-
-.intro p {
-  color:#92979b;
-  font-size:10px;
-  letter-spacing:3px;
-  margin-top:12px;
-}
-
-/* ARCHITECTURAL GARAGE */
-
-.architecture {
-  max-width:1450px;
-  margin:auto;
-  padding:0 3%;
-}
-
-.garage-shell {
-  position:relative;
-  padding:30px 25px 20px;
-  background:
-    linear-gradient(90deg,#25282b,#3a3d40 10%,#24272a 50%,#3b3e40 90%,#202326);
-  border:8px solid #34373a;
-  border-bottom:0;
-  box-shadow:
-    inset 0 0 80px #000,
-    0 20px 50px #000;
-  perspective:1100px;
-}
-
-.ceiling {
-  height:48px;
-  margin:-30px -25px 25px;
-  background:
-    repeating-linear-gradient(90deg,#26292c 0 120px,#34373a 121px 124px);
-  border-bottom:3px solid #55585a;
-  display:flex;
-  align-items:center;
-  justify-content:space-around;
-}
-
-.ceiling-light {
-  width:75px;
-  height:4px;
-  background:#f4e6c4;
-  box-shadow:0 0 18px 6px #e8d5a055;
-}
-
-.bays {
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:13px;
-}
-
-.bay {
-  min-width:0;
-  position:relative;
-  background:linear-gradient(180deg,#101214,#292c2f 60%,#141618);
-  border:4px solid #4a4d50;
-  height:260px;
-  overflow:hidden;
-  cursor:pointer;
-  transition:border-color .3s,box-shadow .3s;
-}
-
-.bay:hover {
-  border-color:#a82c2c;
-  box-shadow:0 0 20px #c52b2b33;
-}
-
-.bay-number {
-  position:absolute;
-  top:9px;
-  left:11px;
-  z-index:5;
-  color:#e64b43;
-  font-family:"Barlow Condensed",sans-serif;
-  font-size:15px;
-  letter-spacing:2px;
-}
-
-.bay-name {
-  position:absolute;
-  top:11px;
-  right:9px;
-  z-index:5;
-  color:#c2c4c5;
-  font-size:8px;
-  letter-spacing:1px;
-  text-align:right;
-}
-
-.bay-ceiling-light {
-  position:absolute;
-  top:38px;
-  left:20%;
-  width:60%;
-  height:3px;
-  background:#d6cbb1;
-  box-shadow:0 0 15px 5px #e6d8b044;
-  z-index:1;
-}
-
-.shutter {
-  position:absolute;
-  inset:48px 0 0;
-  z-index:4;
-  background:repeating-linear-gradient(
-    180deg,#56595b 0 7px,#333638 8px 12px
-  );
-  border-top:3px solid #777;
-  box-shadow:inset 0 0 20px #000;
-  transition:transform 1.15s cubic-bezier(.6,0,.3,1);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.shutter-label {
-  background:#141719;
-  padding:12px 15px;
-  border:1px solid #777;
-  color:#ddd;
-  font-family:"Barlow Condensed",sans-serif;
-  letter-spacing:3px;
-  font-size:12px;
-}
-
-.bay.open .shutter {
-  transform:translateY(-105%);
-}
-
-.bay-floor {
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  height:55px;
-  background:linear-gradient(180deg,#333638,#17191b);
-  border-top:2px solid #555;
-}
-
-.lift-platform {
-  position:absolute;
-  left:9%;
-  right:9%;
-  bottom:-100px;
-  height:90px;
-  background:linear-gradient(180deg,#999,#4b5054 12%,#25282a 22%,#62666a);
-  border:3px solid #a3a5a5;
-  z-index:2;
-  box-shadow:0 0 15px #000;
-  transition:bottom 1.8s cubic-bezier(.2,.8,.2,1);
-}
-
-.bay.open .lift-platform {
-  bottom:18px;
-}
-
-.lift-platform:after {
-  content:"";
-  position:absolute;
-  inset:8px;
-  border:1px solid #bfc0bf;
-  opacity:.5;
-}
-
-/* CSS CAR DISPLAY */
-
-.car-display {
-  position:absolute;
-  z-index:3;
-  bottom:-150px;
-  left:50%;
-  width:83%;
-  height:95px;
-  transform:translateX(-50%);
-  transition:bottom 1.9s cubic-bezier(.2,.8,.2,1);
-  filter:drop-shadow(0 10px 8px #000);
-}
-
-.bay.open .car-display { bottom:47px; }
-
-.car-body {
-  position:absolute;
-  bottom:13px;
-  left:5%;
-  width:90%;
-  height:38px;
-  border-radius:45% 40% 16% 16%;
-  background:linear-gradient(180deg,var(--car-color),#292b2c);
-  border:1px solid #aaa5;
-  box-shadow:inset 0 5px 8px #ffffff30;
-}
-
-.car-roof {
-  position:absolute;
-  bottom:47px;
-  left:27%;
-  width:47%;
-  height:32px;
-  background:linear-gradient(135deg,#737d84,#111b20 70%);
-  clip-path:polygon(18% 0,80% 0,100% 100%,0 100%);
-  border-top:2px solid #bbb;
-}
-
-.car-window {
-  position:absolute;
-  bottom:51px;
-  left:33%;
-  width:36%;
-  height:20px;
-  background:linear-gradient(135deg,#64727a,#10191e);
-  clip-path:polygon(16% 0,83% 0,100% 100%,0 100%);
-}
-
-.wheel {
-  position:absolute;
-  bottom:0;
-  width:25px;
-  height:25px;
-  background:radial-gradient(circle,#999 0 18%,#222 20% 50%,#050505 52%);
-  border:2px solid #777;
-  border-radius:50%;
-}
-
-.wheel.front { right:17%; }
-.wheel.back { left:17%; }
-
-.headlight {
-  position:absolute;
-  right:6%;
-  bottom:34px;
-  width:15px;
-  height:6px;
-  background:#fff5c5;
-  box-shadow:0 0 15px 5px #fff3c466;
-}
-
-.taillight {
-  position:absolute;
-  left:6%;
-  bottom:34px;
-  width:12px;
-  height:6px;
-  background:#e52626;
-  box-shadow:0 0 12px #e52626;
-}
-
-.road {
-  height:115px;
-  margin:0 -25px;
-  position:relative;
-  background:
-    linear-gradient(180deg,#303336,#151719 75%);
-  border-top:5px solid #66696a;
-  border-bottom:7px solid #242729;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-.road:before {
-  content:"";
-  position:absolute;
-  width:100%;
-  top:50%;
-  border-top:2px dashed #777;
-  opacity:.5;
-}
-
-.road-label {
-  position:relative;
-  background:#181a1c;
-  padding:9px 22px;
-  color:#85898c;
-  font-size:9px;
-  letter-spacing:4px;
-}
-
-.floor-edge {
-  height:15px;
-  margin:0 -25px;
-  background:linear-gradient(180deg,#555,#222);
-}
-
-.bay-guide {
-  text-align:center;
-  color:#81878b;
-  font-size:9px;
-  letter-spacing:2px;
-  margin:25px 0 0;
-}
-
-.bay-guide span { color:#df4038; }
-
-/* CONTROL AREA */
-
-.controls {
-  max-width:1100px;
-  margin:38px auto;
-  padding:0 20px;
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:12px;
-}
-
-.control-button {
-  padding:13px 20px;
-  background:#151719;
-  border:1px solid #414548;
-  color:#ddd;
-  font-size:9px;
-  letter-spacing:2px;
-  cursor:pointer;
-}
-
-.control-button:hover {
-  border-color:var(--red);
-  color:white;
-}
-
-.collection-note {
-  max-width:850px;
-  margin:55px auto 0;
-  padding:35px 25px;
-  border-top:1px solid #343638;
-  text-align:center;
-}
-
-.collection-note h3 {
-  font-family:"Barlow Condensed",sans-serif;
-  font-size:35px;
-  letter-spacing:4px;
-}
-
-.collection-note p {
-  color:#9a9da0;
-  font-size:11px;
-  line-height:2;
-  margin-top:15px;
-}
-
-/* CAR DETAILS MODAL */
-
-.modal {
-  position:fixed;
-  inset:0;
-  z-index:30;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  background:#000d;
-  backdrop-filter:blur(9px);
-}
-
-.modal.visible { display:flex; }
-
-.modal-panel {
-  width:min(900px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:linear-gradient(145deg,#202326,#0c0e10);
-  border:1px solid #555;
-  box-shadow:0 20px 80px #000;
-  position:relative;
-}
-
-.modal-top {
-  padding:28px;
-  border-bottom:1px solid #414548;
-}
-
-.modal-top h2 {
-  font-family:"Barlow Condensed",sans-serif;
-  font-size:42px;
-  letter-spacing:3px;
-}
-
-.modal-top p {
-  color:#d64a43;
-  font-size:9px;
-  letter-spacing:3px;
-  margin-top:8px;
-}
-
-.close-modal {
-  position:absolute;
-  right:20px;
-  top:20px;
-  color:white;
-  background:none;
-  border:0;
-  font-size:25px;
-  cursor:pointer;
-}
-
-.car-preview {
-  margin:25px;
-  height:210px;
-  position:relative;
-  background:
-    radial-gradient(ellipse,#444 0%,#202326 40%,#101214 80%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-.car-preview .car-display {
-  position:relative;
-  bottom:auto;
-  left:auto;
-  transform:none;
-  width:70%;
-  height:110px;
-}
-
-.car-preview .car-body { height:45px; }
-
-.car-preview .car-roof { bottom:54px; }
-
-.car-preview .car-window { bottom:58px; }
-
-.car-preview .wheel { bottom:0; }
-
-.car-preview .headlight,
-.car-preview .taillight { bottom:40px; }
-
-.tabs {
-  display:flex;
-  gap:10px;
-  padding:0 25px;
-}
-
-.tab {
-  background:#17191b;
-  border:1px solid #45494b;
-  color:#aaa;
-  padding:12px 18px;
-  font-size:9px;
-  letter-spacing:2px;
-  cursor:pointer;
-}
-
-.tab.active {
-  background:#8f2020;
-  border-color:#c63a3a;
-  color:white;
-}
-
-.detail-content {
-  padding:25px;
-  min-height:130px;
-}
-
-.detail-content h3 {
-  font-family:"Barlow Condensed",sans-serif;
-  font-size:25px;
-  letter-spacing:2px;
-  margin-bottom:12px;
-}
-
-.detail-content p {
-  color:#a9abad;
-  font-size:12px;
-  line-height:1.9;
-}
-
-.detail-actions {
-  padding:0 25px 28px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.detail-actions button {
-  padding:13px 16px;
-  background:#9d2222;
-  border:1px solid #ce3d3d;
-  color:white;
-  font-size:9px;
-  letter-spacing:1px;
-  cursor:pointer;
-}
-
-.detail-actions button.secondary {
-  background:#202326;
-  border-color:#555;
-}
-
-.footer {
-  text-align:center;
-  color:#666;
-  font-size:9px;
-  letter-spacing:3px;
-  padding:35px 10px;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:850px) {
-  .bays { grid-template-columns:repeat(2,minmax(0,1fr)); }
-  .bay { height:225px; }
-}
-
-@media(max-width:480px) {
-  .topbar { padding:0 15px; }
-  .top-status { font-size:7px; letter-spacing:1px; }
-  .garage-shell { padding:20px 10px 10px; border-width:4px; }
-  .ceiling { margin:-20px -10px 15px; height:32px; }
-  .bays { gap:7px; }
-  .bay { height:180px; border-width:3px; }
-  .bay-name { font-size:7px; }
-  .shutter-label { font-size:9px; padding:9px 5px; }
-  .car-display { width:95%; transform:translateX(-50%) scale(.9); }
-  .road { margin:0 -10px; height:85px; }
-  .floor-edge { margin:0 -10px; }
-  .intro { padding-top:40px; }
-  .modal-top h2 { font-size:32px; }
-  .car-preview { height:160px; margin:15px; }
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+*{box-sizing:border-box}
+body{margin:0;background:#090d13;color:#eaf1fa;font-family:'Rajdhani',sans-serif;overflow:hidden}
+button{font:inherit;cursor:pointer}
+#scene{position:fixed;inset:0}
+canvas{display:block}
+.hud{position:fixed;inset:0;pointer-events:none}
+.topbar{position:absolute;top:0;left:0;right:0;padding:22px 28px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(#080d15dd,transparent)}
+.brand{font-family:Orbitron,sans-serif;font-size:clamp(14px,2vw,23px);letter-spacing:3px;font-weight:700}
+.brand span{color:#d6a75e}
+.subtitle{font-size:12px;letter-spacing:3px;color:#9ba9b9;margin-top:5px}
+.status{font-family:Orbitron,sans-serif;font-size:10px;letter-spacing:2px;color:#8dcaab}
+.status:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#65d99b;margin-right:9px;box-shadow:0 0 12px #65d99b}
+.instruction{position:absolute;top:105px;left:50%;transform:translateX(-50%);font-size:13px;letter-spacing:2px;color:#aab7c6;text-align:center;white-space:nowrap}
+.bottom{position:absolute;left:0;right:0;bottom:0;padding:16px 22px 20px;background:linear-gradient(transparent,#080d15ee 35%);display:flex;justify-content:space-between;align-items:end;gap:15px;pointer-events:auto}
+.bays{display:flex;gap:7px;flex-wrap:wrap}
+.bay-btn,.action{border:1px solid #526171;background:#101923dd;color:#dce5ee;padding:9px 13px;border-radius:3px;font-family:Orbitron,sans-serif;font-size:10px;letter-spacing:1px;transition:.2s}
+.bay-btn:hover,.bay-btn.active,.action:hover{border-color:#d6a75e;color:#f4c77e;background:#252117}
+.bay-btn.active{box-shadow:0 0 15px #d6a75e33}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.panel{position:absolute;right:22px;top:110px;width:min(330px,calc(100vw - 44px));background:#0c131ded;border:1px solid #66583e;padding:18px;pointer-events:auto;display:none;backdrop-filter:blur(12px);box-shadow:0 15px 50px #0009}
+.panel.show{display:block}
+.panel h2{font-family:Orbitron,sans-serif;font-size:18px;color:#e7bd78;margin:0 0 6px}
+.panel .model{font-size:12px;letter-spacing:2px;color:#8f9eae;margin-bottom:16px}
+.panel p{font-size:14px;color:#c4cfda;line-height:1.5;margin:8px 0}
+.panel .tag{font-size:10px;color:#d6a75e;letter-spacing:2px;margin-top:14px}
+.panel .close{float:right;background:none;border:0;color:#aab7c6;font-size:20px}
+.panel-actions{display:flex;gap:8px;margin-top:16px}
+.panel-actions button{flex:1}
+.mobile-note{font-size:10px;color:#718093;margin-top:12px}
+@media(max-width:650px){
+ .topbar{padding:15px}.status{display:none}
+ .instruction{top:85px;font-size:10px}
+ .bottom{padding:12px;display:block}
+ .bays{justify-content:center}
+ .actions{margin-top:10px;justify-content:center}
+ .bay-btn{padding:8px 10px;font-size:9px}
+ .panel{top:105px;right:12px}
 }
 </style>
 </head>
 
 <body>
+<div id="scene"></div>
 
-<!-- ENTRANCE -->
-
-<section class="entrance" id="entrance">
-  <div class="entrance-content">
-    <div class="eyebrow">PRIVATE AUTOMOTIVE COLLECTION</div>
-    <h1>ATHISH'S<br><span>DREAM GARAGE</span></h1>
-    <p class="entrance-sub">A WORLD BUILT AROUND YOUR DREAMS</p>
-    <button class="enter-button" onclick="enterGarage()">
-      ENTER GARAGE
-    </button>
-  </div>
-</section>
-
-<!-- MAIN GARAGE -->
-
-<main class="garage hidden" id="garage">
-
-  <header class="topbar">
-    <div class="brand">ATHISH <span>///</span> GARAGE</div>
-    <div class="top-status">
-      <span class="live-dot"></span>PRIVATE COLLECTION
+<div class="hud">
+  <div class="topbar">
+    <div>
+      <div class="brand">ATHISH'S <span>DREAM GARAGE</span></div>
+      <div class="subtitle">A PRIVATE COLLECTION · EST. 2026</div>
     </div>
-  </header>
-
-  <section class="intro">
-    <div class="eyebrow">WELCOME TO YOUR PRIVATE SPACE</div>
-    <h2>THE UNDERGROUND</h2>
-    <p>EIGHT MACHINES. EIGHT PERSONAL SPACES.</p>
-  </section>
-
-  <section class="architecture">
-    <div class="garage-shell">
-
-      <div class="ceiling">
-        <div class="ceiling-light"></div>
-        <div class="ceiling-light"></div>
-        <div class="ceiling-light"></div>
-        <div class="ceiling-light"></div>
-      </div>
-
-      <div class="bays" id="bays"></div>
-
-      <div class="road">
-        <div class="road-label">PRIVATE GARAGE DRIVEWAY</div>
-      </div>
-
-      <div class="floor-edge"></div>
-
-    </div>
-
-    <div class="bay-guide">
-      SELECT A <span>PARKING BAY</span> TO REVEAL YOUR CAR
-    </div>
-  </section>
-
-  <div class="controls">
-    <button class="control-button" onclick="closeAllBays()">
-      CLOSE ALL SHUTTERS
-    </button>
-    <button class="control-button" onclick="stopSound()">
-      STOP ENGINE SOUND
-    </button>
+    <div class="status">SYSTEM ONLINE</div>
   </div>
 
-  <section class="collection-note">
-    <div class="eyebrow">A PERSONAL COLLECTION</div>
-    <h3>MORE THAN JUST CARS.</h3>
-    <p>
-      Every car has its own place.<br>
-      Every dream has its own story.<br>
-      Welcome home, Athish.
-    </p>
-  </section>
+  <div class="instruction">SELECT A BAY TO RAISE YOUR CAR</div>
 
-  <footer class="footer">
-    BUILT WITH LOVE · ATHISH'S DREAM GARAGE · 2026
-  </footer>
-
-</main>
-
-<!-- CAR DETAILS -->
-
-<div class="modal" id="carModal">
-  <div class="modal-panel">
-
-    <button class="close-modal" onclick="closeModal()">×</button>
-
-    <div class="modal-top">
-      <h2 id="modalName">CAR NAME</h2>
-      <p id="modalTag">PRIVATE COLLECTION</p>
+  <div class="panel" id="panel">
+    <button class="close" id="closePanel">×</button>
+    <div class="tag">GARAGE COLLECTION / <span id="carNumber">01</span></div>
+    <h2 id="carName">SKODA OCTAVIA</h2>
+    <div class="model" id="carModel">THE ONE THAT STARTED IT ALL</div>
+    <p id="carDescription"></p>
+    <p><strong>Body:</strong> <span id="carBody"></span></p>
+    <p><strong>Interior:</strong> <span id="carInterior"></span></p>
+    <p><strong>Collection status:</strong> <span id="carStatus"></span></p>
+    <div class="panel-actions">
+      <button class="action" id="parkBtn">PARK CAR</button>
+      <button class="action" id="soundBtn">ENGINE SOUND</button>
     </div>
+    <div class="mobile-note">Engine sound is a generated preview, not an original recording.</div>
+  </div>
 
-    <div class="car-preview" id="carPreview"></div>
-
-    <div class="tabs">
-      <button class="tab active" onclick="showTab('exterior',this)">
-        EXTERIOR
-      </button>
-      <button class="tab" onclick="showTab('interior',this)">
-        INTERIOR
-      </button>
-      <button class="tab" onclick="showTab('specs',this)">
-        SPECIFICATIONS
-      </button>
+  <div class="bottom">
+    <div class="bays" id="bayButtons"></div>
+    <div class="actions">
+      <button class="action" id="closeAll">CLOSE ALL</button>
+      <button class="action" id="resetCamera">RESET VIEW</button>
     </div>
-
-    <div class="detail-content" id="detailContent"></div>
-
-    <div class="detail-actions">
-      <button onclick="playEngine(currentCar)">
-        START ENGINE
-      </button>
-      <button class="secondary" onclick="closeModal()">
-        BACK TO GARAGE
-      </button>
-    </div>
-
   </div>
 </div>
 
-<script>
-
-/* CAR COLLECTION */
-
-const cars = [
-  {
-    id:"01",
-    name:"SKODA OCTAVIA",
-    color:"#a92323",
-    tag:"THE ONE HE WOULD NEVER SELL",
-    engine:"2.0L TSI performance engine",
-    transmission:"Manual preference",
-    body:"Sedan",
-    interior:"Tan leather",
-    finish:"Matte",
-    rims:"Diamond-cut alloys",
-    personality:"The car that represents his personality.",
-    exterior:"A timeless performance sedan. Red bodywork, understated styling and a special place in this collection.",
-    interiorText:"A custom tan interior, refined cockpit, elegant dashboard and a driver-focused atmosphere.",
-    sound:105
-  },
-  {
-    id:"02",
-    name:"SKODA SUPERB",
-    color:"#777b80",
-    tag:"THE LUXURY DREAM",
-    engine:"2.0L TSI",
-    transmission:"Automatic variant",
-    body:"Luxury sedan",
-    interior:"Tan luxury theme",
-    finish:"Matte",
-    rims:"Diamond-cut alloys",
-    personality:"A perfect expression of comfort and elegance.",
-    exterior:"A sophisticated executive sedan with a clean, premium silhouette.",
-    interiorText:"A spacious luxury cabin with tan upholstery, refined details and comfortable seating.",
-    sound:90
-  },
-  {
-    id:"03",
-    name:"VOLKSWAGEN VIRTUS",
-    color:"#a92323",
-    tag:"THE CHILDHOOD DREAM",
-    engine:"TSI petrol engine",
-    transmission:"Variant dependent",
-    body:"Sedan",
-    interior:"Tan custom theme",
-    finish:"Matte",
-    rims:"Diamond-cut alloys",
-    personality:"A childhood dream turned into a garage reality.",
-    exterior:"A sharp and stylish sedan with a sporty road presence.",
-    interiorText:"A neat, modern cockpit with custom tan seat upholstery and refined trim.",
-    sound:95
-  },
-  {
-    id:"04",
-    name:"BMW M3",
-    color:"#333f48",
-    tag:"THE PERFORMANCE MACHINE",
-    engine:"BMW M performance engine",
-    transmission:"Variant dependent",
-    body:"Performance sedan",
-    interior:"Tan and dark sport theme",
-    finish:"Matte",
-    rims:"Diamond-cut alloys",
-    personality:"Precision, speed and performance.",
-    exterior:"An aggressive performance sedan with muscular proportions.",
-    interiorText:"A driver-focused cockpit with sport seats, detailed controls and premium finishes.",
-    sound:125
-  },
-  {
-    id:"05",
-    name:"BMW M5",
-    color:"#303b48",
-    tag:"THE SOUND OF POWER",
-    engine:"V8 in modern M5 generations",
-    transmission:"Automatic in current generation",
-    body:"Performance sedan",
-    interior:"Tan and dark sport theme",
-    finish:"Matte",
-    rims:"Diamond-cut alloys",
-    personality:"Power with executive comfort.",
-    exterior:"A muscular executive performance sedan.",
-    interiorText:"A premium sport cabin with performance details and an elegant interior atmosphere.",
-    sound:140
-  },
-  {
-    id:"06",
-    name:"MERCEDES-MAYBACH",
-    color:"#16191c",
-    tag:"THE ULTIMATE LUXURY",
-    engine:"V12 on selected S 680 versions",
-    transmission:"Automatic",
-    body:"Ultra-luxury sedan",
-    interior:"Tan premium leather",
-    finish:"Gloss luxury finish",
-    rims:"Maybach luxury wheels",
-    personality:"The ultimate expression of luxury and refinement.",
-    exterior:"A commanding luxury sedan with elegant Maybach proportions.",
-    interiorText:"A warm tan leather cabin, exquisite finishes, rear-seat luxury and a quiet atmosphere.",
-    sound:80
-  },
-  {
-    id:"07",
-    name:"NISSAN GT-R",
-    color:"#6b747c",
-    tag:"THE RACING TRIBUTE",
-    engine:"3.8L twin-turbo V6 on R35",
-    transmission:"Dual-clutch automatic on R35",
-    body:"Sports coupe",
-    interior:"Dark sport interior",
-    finish:"Matte",
-    rims:"Performance alloys",
-    personality:"Inspired by the iconic Paul Walker racing connection.",
-    exterior:"An iconic Japanese performance machine with unmistakable styling.",
-    interiorText:"A driver-focused sports cockpit with performance seating and dark trim.",
-    sound:150
-  },
-  {
-    id:"08",
-    name:"MERCEDES-AMG S 63",
-    color:"#17191c",
-    tag:"THE LUXURY PERFORMER",
-    engine:"4.0L V8 biturbo hybrid",
-    transmission:"AMG automatic",
-    body:"Performance luxury sedan",
-    interior:"Tan premium leather",
-    finish:"Matte",
-    rims:"AMG alloy wheels",
-    personality:"A balance of extraordinary comfort and performance.",
-    exterior:"A powerful luxury sedan with an elegant AMG identity.",
-    interiorText:"A premium tan leather interior with sophisticated lighting and sporty luxury details.",
-    sound:130
-  }
-];
-
-let activeBay = null;
-let currentCar = null;
-let audioContext = null;
-let engineOscillators = [];
-let engineGain = null;
-
-/* ENTRANCE */
-
-function enterGarage() {
-  document.getElementById("entrance").classList.add("hidden");
-  document.getElementById("garage").classList.remove("hidden");
-  window.scrollTo(0,0);
-}
-
-/* BUILD EIGHT PHYSICAL BAYS */
-
-const bays = document.getElementById("bays");
-
-cars.forEach((car,index) => {
-
-  const bay = document.createElement("div");
-  bay.className = "bay";
-  bay.dataset.id = car.id;
-
-  bay.innerHTML = `
-    <div class="bay-number">BAY ${car.id}</div>
-    <div class="bay-name">${car.name}</div>
-    <div class="bay-ceiling-light"></div>
-
-    <div class="car-display">
-      <div class="car-roof"></div>
-      <div class="car-window"></div>
-      <div class="car-body" style="--car-color:${car.color}"></div>
-      <div class="wheel front"></div>
-      <div class="wheel back"></div>
-      <div class="headlight"></div>
-      <div class="taillight"></div>
-    </div>
-
-    <div class="lift-platform"></div>
-    <div class="bay-floor"></div>
-
-    <div class="shutter">
-      <div class="shutter-label">BAY ${car.id} · ACCESS</div>
-    </div>
-  `;
-
-  bay.addEventListener("click",() => selectBay(index));
-
-  bays.appendChild(bay);
-
-});
-
-/* SELECT BAY */
-
-function selectBay(index) {
-
-  const car = cars[index];
-  const bay = document.querySelectorAll(".bay")[index];
-
-  if(bay.classList.contains("open")) {
-    closeBay(index);
-    return;
-  }
-
-  closeAllBays();
-  activeBay = index;
-
-  bay.classList.add("open");
-
-  setTimeout(() => {
-    playEngine(car);
-  },1100);
-
-  setTimeout(() => {
-    openModal(index);
-  },2200);
-}
-
-/* CLOSE AND PARK */
-
-function closeBay(index) {
-
-  const bay = document.querySelectorAll(".bay")[index];
-
-  bay.classList.remove("open");
-
-  stopSound();
-  closeModal();
-
-  if(activeBay === index) activeBay = null;
-}
-
-function closeAllBays() {
-
-  document.querySelectorAll(".bay").forEach(bay => {
-    bay.classList.remove("open");
-  });
-
-  stopSound();
-  closeModal();
-  activeBay = null;
-}
-
-/* CAR MODAL */
-
-function openModal(index) {
-
-  currentCar = cars[index];
-
-  document.getElementById("modalName").textContent =
-    currentCar.name;
-
-  document.getElementById("modalTag").textContent =
-    currentCar.tag;
-
-  document.getElementById("carPreview").innerHTML = `
-    <div class="car-display">
-      <div class="car-roof"></div>
-      <div class="car-window"></div>
-      <div class="car-body" style="--car-color:${currentCar.color}"></div>
-      <div class="wheel front"></div>
-      <div class="wheel back"></div>
-      <div class="headlight"></div>
-      <div class="taillight"></div>
-    </div>
-  `;
-
-  document.getElementById("carModal").classList.add("visible");
-
-  const firstTab = document.querySelector(".tab");
-  showTab("exterior",firstTab);
-}
-
-function closeModal() {
-  document.getElementById("carModal").classList.remove("visible");
-}
-
-/* EXTERIOR / INTERIOR / SPECS */
-
-function showTab(type,button) {
-
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.classList.remove("active");
-  });
-
-  if(button) button.classList.add("active");
-
-  const car = currentCar;
-  if(!car) return;
-
-  const content = document.getElementById("detailContent");
-
-  if(type === "exterior") {
-    content.innerHTML = `
-      <h3>THE EXTERIOR</h3>
-      <p>${car.exterior}</p>
-      <p style="margin-top:12px">Preferred finish: ${car.finish}</p>
-      <p>Wheel preference: ${car.rims}</p>
-    `;
-  }
-
-  if(type === "interior") {
-    content.innerHTML = `
-      <h3>STEP INSIDE</h3>
-      <p>${car.interiorText}</p>
-      <p style="margin-top:12px">Interior theme: ${car.interior}</p>
-      <p>Imagine your own private cockpit.</p>
-    `;
-  }
-
-  if(type === "specs") {
-    content.innerHTML = `
-      <h3>VEHICLE PROFILE</h3>
-      <p>Engine: ${car.engine}</p>
-      <p>Transmission: ${car.transmission}</p>
-      <p>Body style: ${car.body}</p>
-      <p>Personality: ${car.personality}</p>
-    `;
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
   }
 }
-
-/* SYNTHESIZED ENGINE SOUND */
-
-async function playEngine(car) {
-
-  stopSound();
-
-  try {
-
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if(!AudioCtx) return;
-
-    if(!audioContext) audioContext = new AudioCtx();
-
-    await audioContext.resume();
-
-    const base = car.sound;
-
-    engineGain = audioContext.createGain();
-    engineGain.gain.setValueAtTime(0.0001,audioContext.currentTime);
-    engineGain.gain.exponentialRampToValueAtTime(
-      0.10,audioContext.currentTime + 0.3
-    );
-
-    const filter = audioContext.createBiquadFilter();
-    filter.type = "lowpass";
-    filter.frequency.value = 500;
-
-    filter.connect(engineGain);
-    engineGain.connect(audioContext.destination);
-
-    const osc = audioContext.createOscillator();
-    osc.type = "sawtooth";
-    osc.frequency.setValueAtTime(base,audioContext.currentTime);
-
-    osc.connect(filter);
-    osc.start();
-
-    osc.frequency.exponentialRampToValueAtTime(
-      base * 2.2,audioContext.currentTime + 0.8
-    );
-
-    osc.frequency.exponentialRampToValueAtTime(
-      base * 1.15,audioContext.currentTime + 2.1
-    );
-
-    engineOscillators.push(osc);
-
-    const osc2 = audioContext.createOscillator();
-    osc2.type = "triangle";
-    osc2.frequency.value = base / 2;
-
-    const gain2 = audioContext.createGain();
-    gain2.gain.value = 0.04;
-
-    osc2.connect(gain2);
-    gain2.connect(audioContext.destination);
-    osc2.start();
-
-    engineOscillators.push(osc2);
-
-    setTimeout(() => stopSound(),4500);
-
-  } catch(error) {
-    console.log("Audio could not start:",error);
-  }
-}
-
-function stopSound() {
-
-  if(engineGain && audioContext) {
-    engineGain.gain.cancelScheduledValues(audioContext.currentTime);
-    engineGain.gain.setTargetAtTime(
-      0.0001,audioContext.currentTime,0.15
-    );
-  }
-
-  engineOscillators.forEach(osc => {
-    try { osc.stop(); } catch(e) {}
-  });
-
-  engineOscillators = [];
-}
-
-document.getElementById("carModal").addEventListener("click",event => {
-  if(event.target.id === "carModal") closeModal();
-});
-
 </script>
 
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const cars = [
+ {name:"SKODA OCTAVIA",subtitle:"THE ONE THAT STARTED IT ALL",body:"Matte racing red",interior:"Premium tan",status:"NEVER SELL",color:0x9c2028,shape:0,desc:"The heart of this collection. The car that represents you. This bay is permanently reserved."},
+ {name:"SKODA SUPERB",subtitle:"THE LUXURY DREAM",body:"Deep metallic black",interior:"Tan luxury leather",status:"DREAM COLLECTION",color:0x202b38,shape:0,desc:"A refined luxury sedan. Comfort, presence and elegance in one machine."},
+ {name:"VOLKSWAGEN VIRTUS",subtitle:"THE CHILDHOOD DREAM",body:"Glossy deep red",interior:"Black and tan",status:"DREAM COLLECTION",color:0x871c25,shape:0,desc:"The childhood dream that earned its place in this garage."},
+ {name:"BMW M3",subtitle:"THE DRIVER'S MACHINE",body:"Matte graphite",interior:"Black sport interior",status:"DREAM COLLECTION",color:0x303b47,shape:1,desc:"A performance sedan built around the joy of driving."},
+ {name:"BMW M5",subtitle:"THE POWERHOUSE",body:"Metallic dark blue",interior:"Black leather",status:"DREAM COLLECTION",color:0x172e50,shape:0,desc:"The special engine sound. The serious performance machine."},
+ {name:"MERCEDES-MAYBACH",subtitle:"THE ULTIMATE LUXURY",body:"Obsidian black",interior:"Exclusive tan leather",status:"DREAM COLLECTION",color:0x111318,shape:0,desc:"The ultimate expression of luxury. A special place in the collection."},
+ {name:"NISSAN GT-R",subtitle:"THE PAUL WALKER TRIBUTE",body:"Silver metallic",interior:"Black sport interior",status:"DREAM COLLECTION",color:0x9ca5ad,shape:1,desc:"A tribute to an icon. The machine reserved for the track."},
+ {name:"MERCEDES-AMG S 63 E",subtitle:"THE PERFORMANCE LUXURY",body:"Glossy obsidian",interior:"Black and tan",status:"DREAM COLLECTION",color:0x141a21,shape:0,desc:"A powerful luxury sedan. Quiet sophistication with serious performance."}
+];
+
+let scene,camera,renderer,controls,clock;
+let bays=[],activeBay=-1,raycaster,mouse;
+let audioContext=null,oscillator=null;
+const bayButtons=document.getElementById('bayButtons');
+const panel=document.getElementById('panel');
+
+init();
+animate();
+
+function init(){
+ scene=new THREE.Scene();
+ scene.background=new THREE.Color(0x080d14);
+ scene.fog=new THREE.Fog(0x080d14,25,65);
+
+ camera=new THREE.PerspectiveCamera(43,innerWidth/innerHeight,0.1,120);
+ camera.position.set(15,13,23);
+
+ renderer=new THREE.WebGLRenderer({antialias:true});
+ renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+ renderer.setSize(innerWidth,innerHeight);
+ renderer.shadowMap.enabled=true;
+ renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+ renderer.toneMapping=THREE.ACESFilmicToneMapping;
+ renderer.toneMappingExposure=1.25;
+ document.getElementById('scene').appendChild(renderer.domElement);
+
+ controls=new OrbitControls(camera,renderer.domElement);
+ controls.target.set(0,1.2,0);
+ controls.enableDamping=true;
+ controls.maxPolarAngle=Math.PI/2.05;
+ controls.minDistance=10;
+ controls.maxDistance=38;
+
+ clock=new THREE.Clock();
+ raycaster=new THREE.Raycaster();
+ mouse=new THREE.Vector2();
+
+ scene.add(new THREE.HemisphereLight(0x9eb5d0,0x24202a,1.4));
+
+ const mainLight=new THREE.DirectionalLight(0xffe4bd,2.2);
+ mainLight.position.set(-8,16,8);
+ mainLight.castShadow=true;
+ mainLight.shadow.mapSize.set(2048,2048);
+ scene.add(mainLight);
+
+ buildGarage();
+ cars.forEach((car,i)=>createBay(car,i));
+ createUI();
+
+ renderer.domElement.addEventListener('pointerdown',onPointerDown);
+ window.addEventListener('resize',onResize);
+}
+
+function material(color,roughness=.7,metalness=.15){
+ return new THREE.MeshStandardMaterial({color,roughness,metalness});
+}
+
+function addBox(parent,w,h,d,x,y,z,mat,cast=true,receive=true){
+ const mesh=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
+ mesh.position.set(x,y,z);
+ mesh.castShadow=cast;
+ mesh.receiveShadow=receive;
+ parent.add(mesh);
+ return mesh;
+}
+
+function buildGarage(){
+ const concrete=material(0x454b52,.92);
+ const wall=material(0x252d36,.88);
+ const dark=material(0x111820,.8);
+ const trim=material(0x8d7654,.45,.6);
+ const floor=addBox(scene,29,.45,15,0,-.25,0,concrete,false,true);
+ floor.receiveShadow=true;
+
+ // Basement walls
+ addBox(scene,29,5,.5,0,2.25,-7.25,wall);
+ addBox(scene,.5,5,15,-14.25,2.25,0,wall);
+ addBox(scene,.5,5,15,14.25,2.25,0,wall);
+ addBox(scene,29,.5,.5,0,4.8,7.25,wall);
+
+ // Ceiling
+ addBox(scene,29,.35,15,0,5,0,dark,false);
+ // Structural beams
+ for(let x=-12;x<=12;x+=6){
+   addBox(scene,.28,.55,15,x,4.55,0,trim);
+ }
+ // Floor markings
+ const lineMat=new THREE.MeshStandardMaterial({color:0xd6a75e,emissive:0x493019});
+ for(let x=-12;x<=12;x+=3.5){
+   addBox(scene,.035,.012,8.8,x,.0,-.2,lineMat,false);
+ }
+ // Back wall panels
+ for(let x=-12;x<=12;x+=2){
+   addBox(scene,.035,3.4,.04,x,2.4,-6.97,trim,false);
+ }
+ // Ceiling lights
+ for(let x=-10.5;x<=10.5;x+=3){
+   const light=new THREE.PointLight(0xffd9a0,85,8,2);
+   light.position.set(x,4.35,0);
+   scene.add(light);
+   const lamp=addBox(scene,1.7,.07,.55,x,4.65,0,material(0xffe4b8,.3),false);
+   lamp.material.emissive=new THREE.Color(0x8a6536);
+   lamp.material.emissiveIntensity=.45;
+ }
+ // Entrance ramp
+ const ramp=addBox(scene,7,.18,5,0,-.06,8.8,material(0x343b43),false);
+ ramp.rotation.x=-.12;
+ // Entrance frame
+ addBox(scene,29,.3,.3,0,4.4,7.05,trim);
+ addBox(scene,.3,4,.3,-14,2.2,7.05,trim);
+ addBox(scene,.3,4,.3,14,2.2,7.05,trim);
+}
+
+function createBay(car,index){
+ const group=new THREE.Group();
+ scene.add(group);
+
+ const x=(index-3.5)*3.45;
+ group.position.x=x;
+
+ const platformMat=material(0x5b626b,.65,.35);
+ const platform=addBox(group,2.8,.24,6.2,0,.2,-.2,platformMat);
+ platform.userData.bayIndex=index;
+
+ // Platform edge details
+ const edgeMat=material(0xc09252,.45,.65);
+ for(const side of [-1,1]){
+   addBox(group,.07,.1,6.15,side*1.36,.34,-.2,edgeMat);
+ }
+ // Hydraulic columns
+ const liftMat=material(0x9babb7,.3,.75);
+ const lifts=[];
+ for(const xx of [-.95,.95]){
+  for(const zz of [-2.1,1.7]){
+   const lift=addBox(group,.18,1.1,.18,xx,.78,zz,liftMat);
+   lifts.push(lift);
+  }
+ }
+ // Bay back wall and divider columns
+ addBox(group,3.2,4,.18,0,2.05,-3.5,wallMaterial(),false);
+ for(const side of [-1,1]){
+  addBox(group,.14,4,7,side*1.65,2,0,material(0x303943),false);
+ }
+ // Shutter at front
+ const shutter=new THREE.Group();
+ shutter.position.set(0,2.1,3.35);
+ group.add(shutter);
+ const shutterMat=material(0x65717d,.65,.55);
+ for(let k=0;k<12;k++){
+   const slat=addBox(shutter,3.15,.17,.12,0,-1.02+k*.18,0,shutterMat,false);
+   slat.userData.bayIndex=index;
+ }
+ const shutterFrame=addBox(group,3.35,.16,.2,0,4.1,3.35,edgeMat,false);
+
+ const carGroup=createCar(car,index);
+ group.add(carGroup);
+ carGroup.position.set(0,.4,-.2);
+
+ // Bay number on back wall
+ const sign=makeLabel(String(index+1).padStart(2,'0'));
+ sign.position.set(0,3.65,-3.38);
+ group.add(sign);
+
+ // Invisible clickable pad
+ const hit=new THREE.Mesh(new THREE.BoxGeometry(3.15,.2,7),new THREE.MeshBasicMaterial({transparent:true,opacity:0}));
+ hit.position.set(0,.65,0);
+ hit.userData.bayIndex=index;
+ group.add(hit);
+
+ bays.push({group,platform,shutter,carGroup,lifts,hit,raised:false,opening:0});
+}
+
+function wallMaterial(){return material(0x333b45,.9)}
+
+function makeLabel(value){
+ const canvas=document.createElement('canvas');
+ canvas.width=256;canvas.height=128;
+ const ctx=canvas.getContext('2d');
+ ctx.fillStyle='#111923';ctx.fillRect(0,0,256,128);
+ ctx.strokeStyle='#d6a75e';ctx.lineWidth=5;ctx.strokeRect(5,5,246,118);
+ ctx.fillStyle='#f0c987';ctx.font='bold 66px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(value,128,65);
+ const texture=new THREE.CanvasTexture(canvas);
+ const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1.2,.6),new THREE.MeshBasicMaterial({map:texture,transparent:true}));
+ return mesh;
+}
+
+function createCar(car,index){
+ const g=new THREE.Group();
+ const paint=new THREE.MeshStandardMaterial({color:car.color,metalness:.72,roughness:.28});
+ const glass=new THREE.MeshStandardMaterial({color:0x182b39,metalness:.45,roughness:.18});
+ const black=material(0x090d12,.35,.2);
+ const chrome=material(0xaab5bd,.25,.85);
+ const tire=material(0x111316,.95);
+ const tan=material(0x92734e,.7);
+
+ // Car body
+ addBox(g,1.75,.48,3.8,0,.72,0,paint);
+ addBox(g,1.62,.35,1.1,0,1.03,1.15,paint);
+ // Cabin
+ const cabin=addBox(g,1.42,.68,1.9,0,1.28,-.25,glass);
+ // Roof
+ addBox(g,1.38,.09,1.45,0,1.65,-.28,paint);
+ // Hood and rear deck
+ addBox(g,1.65,.15,1.05,0,.99,1.25,paint);
+ addBox(g,1.65,.16,.75,0,.99,-1.5,paint);
+
+ // Front and rear bumpers
+ addBox(g,1.7,.22,.22,0,.57,1.98,black);
+ addBox(g,1.7,.22,.22,0,.57,-1.98,black);
+
+ // Windshield / rear window
+ const wind=material(0x0c1a25,.18,.4);
+ const frontWindow=addBox(g,1.38,.48,.06,0,1.31,.73,wind,false);
+ frontWindow.rotation.x=-.25;
+ const rearWindow=addBox(g,1.36,.45,.06,0,1.3,-1.23,wind,false);
+ rearWindow.rotation.x=.25;
+
+ // Seats visible through glass
+ for(const z of [-.75,.35]){
+  for(const x of [-.42,.42]){
+   addBox(g,.42,.48,.38,x,1.05,z,tan,false);
+  }
+ }
+ // Wheels, alloy hubs
+ for(const x of [-.91,.91]){
+  for(const z of [-1.25,1.25]){
+   const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.39,.39,.22,24),tire);
+   wheel.rotation.z=Math.PI/2;
+   wheel.position.set(x,.48,z);
+   wheel.castShadow=true;
+   g.add(wheel);
+   const hub=new THREE.Mesh(new THREE.CylinderGeometry(.2,.2,.235,16),chrome);
+   hub.rotation.z=Math.PI/2;
+   hub.position.set(x*1.01,.48,z);
+   g.add(hub);
+   const center=new THREE.Mesh(new THREE.CylinderGeometry(.07,.07,.24,12),black);
+   center.rotation.z=Math.PI/2;
+   center.position.set(x*1.02,.48,z);
+   g.add(center);
+  }
+ }
+ // Headlights
+ const lampMat=new THREE.MeshStandardMaterial({color:0xfff1d0,emissive:0xffdca0,emissiveIntensity:1.2});
+ for(const x of [-.58,.58]){
+  addBox(g,.38,.16,.06,x,.78,2.02,lampMat,false);
+  const rear=addBox(g,.38,.14,.06,x,.78,-2.02,material(0xa51f25,.3),false);
+  rear.material.emissive=new THREE.Color(0x6b0909);
+  rear.material.emissiveIntensity=.8;
+ }
+ // Side mirrors
+ for(const x of [-.95,.95]){
+  addBox(g,.18,.13,.25,x,1.15,.55,paint);
+ }
+ // Front grille
+ addBox(g,.75,.25,.035,0,.67,2.04,black,false);
+ // Dashboard hint
+ addBox(g,1.1,.12,.25,0,1.05,.55,black,false);
+
+ g.userData.bayIndex=index;
+ return g;
+}
+
+function createUI(){
+ cars.forEach((car,i)=>{
+  const btn=document.createElement('button');
+  btn.className='bay-btn';
+  btn.textContent=String(i+1).padStart(2,'0')+' · '+car.name.split(' ')[0];
+  btn.addEventListener('click',()=>selectBay(i));
+  bayButtons.appendChild(btn);
+ });
+ document.getElementById('closePanel').onclick=()=>panel.classList.remove('show');
+ document.getElementById('parkBtn').onclick=()=>parkBay(activeBay);
+ document.getElementById('soundBtn').onclick=toggleSound;
+ document.getElementById('closeAll').onclick=closeAll;
+ document.getElementById('resetCamera').onclick=resetCamera;
+}
+
+function selectBay(index){
+ if(activeBay!==-1 && activeBay!==index) parkBay(activeBay);
+ activeBay=index;
+ const car=cars[index];
+ const bay=bays[index];
+
+ bay.raised=true;
+ panel.classList.add('show');
+ document.getElementById('carNumber').textContent=String(index+1).padStart(2,'0');
+ document.getElementById('carName').textContent=car.name;
+ document.getElementById('carModel').textContent=car.subtitle;
+ document.getElementById('carDescription').textContent=car.desc;
+ document.getElementById('carBody').textContent=car.body;
+ document.getElementById('carInterior').textContent=car.interior;
+ document.getElementById('carStatus').textContent=car.status;
+
+ [...bayButtons.children].forEach((b,i)=>b.classList.toggle('active',i===index));
+
+ // Move camera towards selected bay
+ const targetX=bay.group.position.x;
+ controls.target.set(targetX,1.3,0);
+ camera.position.x=targetX+8;
+ camera.position.y=9;
+ camera.position.z=13;
+}
+
+function parkBay(index){
+ if(index<0)return;
+ const bay=bays[index];
+ bay.raised=false;
+ if(activeBay===index){
+  activeBay=-1;
+  panel.classList.remove('show');
+  [...bayButtons.children].forEach(b=>b.classList.remove('active'));
+ }
+ stopSound();
+}
+
+function closeAll(){
+ bays.forEach((bay,i)=>bay.raised=false);
+ activeBay=-1;
+ panel.classList.remove('show');
+ [...bayButtons.children].forEach(b=>b.classList.remove('active'));
+ stopSound();
+}
+
+function resetCamera(){
+ camera.position.set(15,13,23);
+ controls.target.set(0,1.2,0);
+ controls.update();
+}
+
+function toggleSound(){
+ if(oscillator){stopSound();return;}
+ try{
+  audioContext=new (window.AudioContext||window.webkitAudioContext)();
+  oscillator=audioContext.createOscillator();
+  const gain=audioContext.createGain();
+  const filter=audioContext.createBiquadFilter();
+  oscillator.type='sawtooth';
+  oscillator.frequency.setValueAtTime(65,audioContext.currentTime);
+  filter.type='lowpass';
+  filter.frequency.value=180;
+  gain.gain.value=.035;
+  oscillator.connect(filter);
+  filter.connect(gain);
+  gain.connect(audioContext.destination);
+  oscillator.start();
+  document.getElementById('soundBtn').textContent='STOP SOUND';
+ }catch(e){alert('Audio preview is not available in this browser.');}
+}
+
+function stopSound(){
+ if(oscillator){
+  try{oscillator.stop();}catch(e){}
+  oscillator=null;
+ }
+ if(audioContext){audioContext.close();audioContext=null;}
+ const btn=document.getElementById('soundBtn');
+ if(btn)btn.textContent='ENGINE SOUND';
+}
+
+function onPointerDown(event){
+ if(event.target.closest('button')||event.target.closest('.panel'))return;
+ mouse.x=(event.clientX/innerWidth)*2-1;
+ mouse.y=-(event.clientY/innerHeight)*2+1;
+ raycaster.setFromCamera(mouse,camera);
+ const hits=raycaster.intersectObjects(scene.children,true);
+ for(const hit of hits){
+  let obj=hit.object;
+  while(obj){
+   if(obj.userData && Number.isInteger(obj.userData.bayIndex)){
+    selectBay(obj.userData.bayIndex);
+    return;
+   }
+   obj=obj.parent;
+  }
+ }
+}
+
+function onResize(){
+ camera.aspect=innerWidth/innerHeight;
+ camera.updateProjectionMatrix();
+ renderer.setSize(innerWidth,innerHeight);
+}
+
+function animate(){
+ requestAnimationFrame(animate);
+ const dt=Math.min(clock.getDelta(),.05);
+ bays.forEach(bay=>{
+  const target=bay.raised?3.2:0;
+  const current=bay.platform.position.y-.2;
+  const next=THREE.MathUtils.damp(current,target,2.1,dt);
+  const movement=next-current;
+  bay.platform.position.y=.2+next;
+  bay.carGroup.position.y=.4+next;
+  bay.lifts.forEach(lift=>{
+   lift.scale.y=Math.max(.1,1+next*.65);
+   lift.position.y=.78+next*.35;
+  });
+  const targetOpen=bay.raised?1:0;
+  bay.opening=THREE.MathUtils.damp(bay.opening,targetOpen,3,dt);
+  bay.shutter.position.y=2.1+bay.opening*4.1;
+ });
+ controls.update();
+ renderer.render(scene,camera);
+}
+</script>
 </body>
 </html>
